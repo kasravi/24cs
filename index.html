@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Webpage</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style></style>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <swiper-container id="stuff"> </swiper-container>
+    <script src="data.js"></script>
+    <script>
+      window.addEventListener("load", (event) => {
+        const template = (data) => `<swiper-slide>
+        <div class="card" style="width: 100vw; height: 100vh">
+          <div class="card-body" style="padding-top:4rem">
+            <h1 class="card-title" style="display: flex;  justify-content: center;margin-bottom:2rem">${data.title}</h1>
+            <h6 class="card-subtitle mb-2 text-body-secondary" style="display: flex;  justify-content: center;">
+                ${data.virtue}
+            </h6>
+            <hr>
+            <p class="card-text" >
+                ${data.body}
+            </div>
+            </p>
+          </div>
+        </div>
+      </swiper-slide>`;
+
+        const load = () => {
+            const selectedLanguage = document.getElementById("languages")?.value??"en";
+          document.getElementById("stuff").innerHTML = `
+            <swiper-slide>
+                <div class="card" style="width: 100vw; height: 100vh">
+                    <div class="card-body" style="padding-top:4rem">
+                        <a href="https://www.viacharacter.org/character-strengths">https://www.viacharacter.org/character-strengths</a>
+                        <div style="margin-top:3rem">
+                        <label for="languages">Choose a Language:</label>
+
+                        <select name="languages" id="languages" style="width:10rem">
+                        ${Object.keys(data).map(f=>`<option value="${f}" ${f===selectedLanguage?"selected":""}>${f}</option>`)}
+
+                        </select>
+                        </div>
+                    </div>
+                </div>
+            </swiper-slide>
+            `;
+          data[selectedLanguage].forEach((d) => {
+            document.getElementById("stuff").innerHTML += template(d);
+          });
+
+            document.getElementById("languages").addEventListener("change", (event) => load());
+        };
+
+        load();
+      });
+    </script>
+  </body>
+</html>
